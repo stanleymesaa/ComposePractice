@@ -56,12 +56,8 @@ class MainActivity : ComponentActivity() {
                 ImageCard()
                 Spacer(modifier = Modifier.height(16.dp))
                 ColorBox(
-                    lifecycleScope = lifecycleScope,
                     viewModel = viewModel,
-                    color = viewModel.color.value
-                ) {
-                    viewModel.color.value = it
-                }
+                )
             }
         }
     }
@@ -128,29 +124,24 @@ fun ImageCard(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun ColorBox(
-    lifecycleScope: LifecycleCoroutineScope,
     viewModel: MainViewModel,
-    color: Color,
-    updateColor: (Color) -> Unit
 ) {
     Box(
         Modifier
             .fillMaxWidth()
             .height(200.dp)
-            .background(color = color, shape = RoundedCornerShape(16.dp))
+            .background(color = viewModel.color.value, shape = RoundedCornerShape(16.dp))
             .clip(shape = RoundedCornerShape(16.dp))
             .pointerInteropFilter {
 
                 if (it.action == MotionEvent.ACTION_DOWN) {
+                    viewModel.runChangeColor()
                 }
 
                 if (it.action == MotionEvent.ACTION_UP) {
-                    Log.e("TAG", "UPPPPPP", )
                     viewModel.cancelChangeColor()
                 }
 
-
-                Log.e("TAG", "isBreak: ${viewModel.isBreak.value}", )
                 true
             }
     ) {

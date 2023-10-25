@@ -9,28 +9,27 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import java.util.Random
 
 class MainViewModel: ViewModel() {
     val color = mutableStateOf(Color.Yellow)
-    val isBreak = mutableStateOf(false)
-    val changeColor: () -> Unit = {
-        while (!isBreak.value) {
-            Log.e("TAG", "LOOP: ${isBreak.value}", )
-        }
-    }
-
     private var job: Job? = null
 
     fun runChangeColor() {
         job = viewModelScope.launch {
             while (true) {
-//                Log.e("TAG", "LOOP", )
+                color.value = Color(
+                    Random().nextFloat(),
+                    Random().nextFloat(),
+                    Random().nextFloat(),
+                    1f
+                )
+                delay(500L)
             }
         }
     }
 
     fun cancelChangeColor() {
-        Log.e("TAG", "CANCEL", )
         job?.cancel()
     }
 }
