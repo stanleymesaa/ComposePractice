@@ -120,7 +120,7 @@ fun ImageCard(
                                 fontWeight = FontWeight.Medium
                             )
                         ) {
-                            append("Test ")
+                            append("Test dev")
                         }
 
                         withStyle(
